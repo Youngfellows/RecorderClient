@@ -36,7 +36,7 @@ public class SocketUtil {
      * @param port      端口号
      * @return 发送是否成功
      */
-    public boolean sendVideo(String ipAddress, String port, String message) {
+    public boolean sendVideo(String ipAddress, String port, byte[] data, int begin, int end) {
         boolean isSuccess = false;//发送是否成功
         Socket socket = new Socket();
         try {
@@ -46,13 +46,13 @@ public class SocketUtil {
             socket.connect(new InetSocketAddress(ipAddress, Integer.parseInt(port)));
 
             OutputStream out = socket.getOutputStream();//发送TCP请求
-            out.write(message.getBytes("UTF-8"));
+            out.write(data);
 
             isSuccess = true;
 
             InputStream in = socket.getInputStream();//接收TCP相应
             ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[320];
             int len = -1;
             while ((len = in.read(buffer)) != -1) {
                 bytesOut.write(buffer, 0, len);

@@ -7,6 +7,8 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.byron.recorderclient.interfaces.RecordAudioCallback;
+import com.byron.recorderclient.interfaces.RecordStartListener;
+import com.byron.recorderclient.interfaces.RecordStreamListener;
 import com.byron.recorderclient.interfaces.SendAudioCallback;
 import com.byron.recorderclient.utils.IPUtil;
 import com.byron.recorderclient.utils.ThreadPoolUtil;
@@ -35,8 +37,8 @@ public class RecorderService extends Service {
          * @param port          端口
          * @param audioCallback 回调
          */
-        public void sendAudio(String ip, String port, String audio, SendAudioCallback audioCallback) {
-            ThreadPoolUtil.getInstance().sendAudio(ip, port, audio, audioCallback);
+        public void sendAudio(String ip, String port, byte[] data, int begin, int end, SendAudioCallback audioCallback) {
+            ThreadPoolUtil.getInstance().sendAudio(ip, port, data, begin,end,audioCallback);
         }
 
         /**
@@ -49,10 +51,26 @@ public class RecorderService extends Service {
         }
 
         /**
-         * 开启录音机录制音频
+         * 模拟开启录音机录制音频
          */
-        public void recordAudio(RecordAudioCallback callback) {
-            ThreadPoolUtil.getInstance().startRecord(callback);
+        public void recordAudioTest(RecordAudioCallback callback) {
+            ThreadPoolUtil.getInstance().startRecordTest(callback);
+        }
+
+        /**
+         * 开启录音机录制音频并回调出去
+         *
+         * @param listener
+         */
+        public void recordAudio(RecordStreamListener listener) {
+            ThreadPoolUtil.getInstance().startRecord(listener);
+        }
+
+        /**
+         * 停止录音
+         */
+        public void stopRecord(RecordStartListener listener) {
+            ThreadPoolUtil.getInstance().stopRecord(listener);
         }
     }
 }

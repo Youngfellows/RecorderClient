@@ -1,2 +1,1 @@
-# RecorderClient
-Socket发送端
+#RecorderClient 使用AudioRecord实时录音并发送给Socket服务端
